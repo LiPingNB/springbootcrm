@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{main}"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head>
+    <title>客户管理</title>
+    <link th:href="@{/localcss/crmlist.css}" href="../static/localcss/crmlist.css" rel="stylesheet">
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="">
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>客户流失管理 > 暂缓流失 <i class="fa fa-user"></i>
+                        </h2>
+                        <button type="button" class="btn btn-primary" id="back">返回</button>
+                        <a id="postpone" type="submit" class="btn btn-success" th:href="@{/customer/toConfirmLost(lstId=${cstLost.lstId})}">确认流失</a>
+                        <button id="send" type="submit" class="btn btn-success" th:onclick="|doSave('暂缓流失')|">保存</button>
+                        <div class="clearfix"></div>
+
+                    </div>
+
+                    <div class="x_content">
+                        <div class="col-sm-4" style="width: 813px; height: 36px; border: 1px solid blue; border-bottom: none; position: relative; top: 10px;">
+                            <div style="width: 200px; height: 34px; border: 1px solid #6EC2FD; background-color: #6EC2FD; ">
+                                <p style="text-align: center;line-height: 30px; color: black;">编号</p>
+                            </div>
+                            <div style="width: 200px; height: 34px; border: 1px solid #EEEEFE ; background-color: #EEEEFE; position: absolute; left: 208px; top: -0.1px;">
+                                <p style="text-align: center;line-height: 30px; color: black" id="lstId" th:text="${cstLost.lstId}"></p>
+                            </div>
+                            <div style="width: 200px; height: 34px; border: 1px solid #6EC2FD; background-color: #6EC2FD; position: absolute; left: 409px;  top: -0.1px;">
+                                <p style="text-align: center;line-height: 30px; color: black;">客户名称</p>
+                            </div>
+                            <div style="width: 200px; height: 34px; border: 1px solid #EEEEFE; background-color: #EEEEFE; position: absolute; left: 610px;  top: -0.1px;">
+                                <p style="text-align: center;line-height: 30px; color: black" id="lstCustName" th:text="${cstLost.lstCustName}"></p>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4" style="width: 813px; height: 36px; border: 1px solid blue; border-bottom: none; position: relative; top: 10px;">
+                            <div style="width: 200px; height: 34px; border: 1px solid #6EC2FD; background-color: #6EC2FD; ">
+                                <p style="text-align: center;line-height: 30px; color: black;">客户经理</p>
+                            </div>
+                            <div style="width: 200px; height: 34px; border: 1px solid #EEEEFE ; background-color: #EEEEFE; position: absolute; left: 208px; top: -0.1px;">
+                                <p style="text-align: center;line-height: 30px; color: black" id="lstCustManagerName" th:text="${cstLost.lstCustManagerName}"></p>
+                            </div>
+                            <div style="width: 200px; height: 34px; border: 1px solid #6EC2FD; background-color: #6EC2FD; position: absolute; left: 409px;  top: -0.1px;">
+                                <p style="text-align: center;line-height: 30px; color: black;">上次下单时间</p>
+                            </div>
+                            <div style="width: 200px; height: 34px; border: 1px solid #EEEEFE; background-color: #EEEEFE; position: absolute; left: 610px;  top: -0.1px;">
+                                <p style="text-align: center;line-height: 30px; color: black" id="lstLastOrderDate" th:text="${cstLost.lstLastOrderDate}"></p>
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="col-sm-4" style="width: 813px; height: 36px; border: 1px solid blue; position: relative; top: 10px;">
+                            <div style="width: 200px; height: 34px; border: 1px solid #6EC2FD; background-color: #6EC2FD; ">
+                                <p style="text-align: center;line-height: 30px; color: black;">暂缓措施</p>
+                            </div>
+                            <div style="width: 200px; height: 34px; border: 1px solid #EEEEFE ; background-color: #EEEEFE; position: absolute; left: 208px; top: -0.1px;">
+                                <p style="text-align: center;line-height: 30px; color: black" id="lstDelay" th:text="${cstLost.lstDelay}"></p>
+
+                            </div>
+                            <div style="width: 200px; height: 34px; border: 1px solid #6EC2FD; background-color: #EEEEFE; position: absolute; left: 409px;  top: -0.1px;">
+                                <p style="text-align: center;line-height: 30px; color: black;"></p>
+                            </div>
+                            <div style="width: 200px; height: 34px; border: 1px solid #EEEEFE; background-color: #EEEEFE; position: absolute; left: 610px;  top: -0.1px;">
+                                <p style="text-align: center;line-height: 30px; color: black" id="know" ></p>
+                            </div>
+                        </div>
+                        <div class="col-sm-4" style="width: 813px; height: 73px; border: 1px solid blue; position: relative; top: 10px; border-top: none;">
+                            <div style="width: 200px; height: 73px; border: 1px solid #6EC2FD; background-color: #6EC2FD; ">
+                                <p style="text-align: center;line-height: 70px; color: black;">追加暂缓措施</p>
+                            </div>
+                            <div style="width: 200px; height: 34px; border: 1px solid #EEEEFE ; background-color: #EEEEFE; position: absolute; left: 208px; top: -0.1px;">
+                                <p style="line-height: 25px; color: black"  ><textarea id="appendlstDelay" name="appendlstDelay"  required ></textarea></p>
+                            </div>
+
+                            <!--<div style="width: 200px; height: 34px; border: 1px solid #6EC2FD; background-color: #6EC2FD; position: absolute; left: 409px;  top: -0.1px;">
+                                <p style="text-align: center;line-height: 30px; color: black;">备注</p>
+                            </div>
+                            <div style="width: 200px; height: 34px; border: 1px solid #EEEEFE; background-color: #EEEEFE; position: absolute; left: 610px;  top: -0.1px;">
+                                <p style="line-height: 25px; color: black"  ><input id="lkmMemo" name="lkmMemo" style="text-align: center;" th:value="${cstLinkman.lkmMemo}"/> <span class="required">*</span></p>
+                            </div>-->
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+<script  layout:fragment="js">
+    $("#back").on("click",function(){
+        window.history.back();
+    });
+    function doDel(obj,atvId){
+        if(confirm("你确定需要删除该联系人信息吗？")){
+            $.ajax({
+                type:"GET",
+                url:"/customer/delActivityRecord",
+                data:"atvId="+atvId,
+                dataType:"json",
+                success:function(data){
+                    if(data.flag == "true"){//删除成功：移除删除行
+                        alert("删除成功！");
+                        $(obj).parents("tr").remove();
+                    }
+                },
+                error:function(data){
+                    alert("对不起，删除失败！");
+                }
+            });
+        }
+    }
+    function doSave(status){
+        var $appendDelay=$("#appendlstDelay").val();
+        var $lstId=$("#lstId").text();
+        if ($appendDelay==''){
+            alert("请输入追加措施");
+        }else {
+            $.ajax({
+                type:"GET",
+                url:"/customer/appendDelay",
+                data:{"lstId":$lstId,"delay":$appendDelay,"status":status},
+                dataType:"json",
+                success:function(data){
+                    if (data.flag=="true"){
+                        alert("保存成功");
+                        location.href="/customer/customerLostList";
+                    }
+                },
+                error:function(data){
+                    alert("保存失败");
+                    location.href="/customer/customerLostList";
+                }
+            });
+        }
+    }
+
+    /*var editstatus=$("#editStatus").val();
+    if (editstatus==1){
+        alert("保存成功");
+    }else {
+        alert(editstatus);
+        alert("保存失败");
+    }*/
+    $(document).ready(function(){
+
+    });
+</script>
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{main}"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head>
+    <title>销售机会修改</title>
+    <link th:href="@{/localcss/crmlist.css}" href="../static/localcss/crmadd.css" rel="stylesheet">
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="">
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>修改客户信息 <i class="fa fa-user"></i></h2>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <div class="clearfix"></div>
+                        <form class="form-horizontal form-label-left" th:action="@{/salChance/editSave}" action="/user/save" method="post">
+                            <input type="hidden" name="id" id="id" value="1" th:value="${salChance.id}">
+                            <input type="hidden" name="createId" id="createId" value="1" th:value="${salChance.createId}">
+                            <input type="hidden" name="createBy" id="createBy" value="1" th:value="${salChance.createBy}">
+                            <input type="hidden" name="dueTo"  value="1" th:value="${salChance.dueTo}">
+                            <input type="hidden" name="status"  value="1" th:value="${salChance.status}">
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="usrName"> 客户名称: <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="usrName" class="form-control col-md-7 col-xs-12"
+                                           data-validate-length-range="10" data-validate-words="1" name="custName" required="required"
+                                           placeholder="请输入客户名称" type="text" th:value="${salChance.custName}"/>
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="linkman"> 负责人 <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="linkman" class="form-control col-md-7 col-xs-12"
+                                           data-validate-length-range="10" data-validate-words="1" name="linkman" required="required"
+                                           placeholder="请输入负责人" type="text" th:value="${salChance.linkman}"/>
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="source"> 机会来源 <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="source" class="form-control col-md-7 col-xs-12"
+                                           data-validate-length-range="10" data-validate-words="1" name="source" required="required"
+                                           placeholder="请输入机会来源" type="text" th:value="${salChance.source}"/>
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="rate"> 成功机率（%） <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="rate" class="form-control col-md-7 col-xs-12"
+                                           data-validate-length-range="10" data-validate-words="1" name="rate" required="required"
+                                           placeholder="请输入成功几率" type="number" th:value="${salChance.rate}"/>
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="tel"> 公司电话 <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="tel" class="form-control col-md-7 col-xs-12"
+                                           data-validate-length-range="10" data-validate-words="1" name="tel" required="required"
+                                           placeholder="请输入公司电话" type="text" th:value="${salChance.tel}"/>
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12"  for="level2"> 客户等级 <span class="required">*</span></label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <select name="level" id="level2" class="form-control" required="required">
+                                        <option th:selected="${data.item eq salChance.level}" th:each="data:${levelList}" th:value="${data.item}" th:text="${data.item}" value="">等级</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="title"> 概要 <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="title" class="form-control col-md-7 col-xs-12"
+                                           data-validate-length-range="10" data-validate-words="1" name="title" required="required"
+                                           placeholder="请输入概要" type="text" th:value="${salChance.title}"/>
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12"  for="region"> 地区 <span class="required">*</span></label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <select name="region" id="region" class="form-control" required="required">
+                                        <option th:selected="${data.item eq salChance.region}" th:each="data:${regionList}" th:value="${data.item}" th:text="${data.item}" value="">地区</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="desc"> 机会描述 <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="desc" class="form-control col-md-7 col-xs-12"
+                                           data-validate-length-range="10" data-validate-words="1" name="desc" required="required"
+                                           placeholder="请输入机会描述" type="text" th:value="${salChance.desc}"/>
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12"  for="dueId2"> 指派给 <span class="required">*</span></label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <select name="dueId" id="dueId2" class="form-control" required="required">
+                                        <option th:selected="${user.usrName eq salChance.dueTo}" th:each="user:${userList}" th:value="${user.usrId}" th:text="${user.usrName}" value="">客户经理</option>
+                                    </select>
+                                    <input type="hidden" name="dueto" id="dueto" value=""/>
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="dueDate"> 指派时间 <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="dueDate" class="form-control col-md-7 col-xs-12"
+                                           data-validate-length-range="10" data-validate-words="1" name="dueDate" required="required"
+                                           placeholder="请输入指派时间" type="text" th:value="${salChance.dueDate}"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-6 col-md-offset-3">
+                                    <button id="send" type="submit" class="btn btn-success">保存</button>
+                                    <button type="button" class="btn btn-primary" id="back">返回</button>
+                                    <br/><br/>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script layout:fragment="js">
+    $(document).ready(function(){
+        $("#back").on("click",function(){
+            window.history.back();
+
+        });
+
+       // $(document).ready(function(){
+           /* $.ajax({
+                type:"GET",
+                url:"/salChance/edit/json",
+                data:"id="+$("#id").val(),
+                dataType:"json",
+                success:function(data){
+                    //回显下拉框选项
+                   // alert(data.level)
+                   // alert(data.region)
+                    $("#level2").find("option[value="+data.level+"]").attr("selected","selected");
+                    $("#region").find("option[value="+data.region+"]").attr("selected","selected");
+                    $("#dueId2").find("option[value="+data.dueTo+"]").attr("selected","selected");
+                },
+                error:function(data){
+                    //返回对象  alert(data.属性)
+                    //返回集合 alert(data[下标].属性)
+                    alert("对不起，获取数据失败！");
+                }
+            });*/
+       // });
+    });
+</script>
+</html>

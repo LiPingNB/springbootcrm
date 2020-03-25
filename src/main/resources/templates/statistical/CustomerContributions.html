@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{main}"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head>
+    <title>统计报表</title>
+    <link th:href="@{/localcss/crmlist.css}" href="../static/localcss/crmlist.css" rel="stylesheet">
+    <style>
+    </style>
+
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="">
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>客户贡献分析<i class="fa fa-user"></i>
+                        </h2>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <form method="post" action="/user/list" th:action="@{/statistical/CustomerContributionsList}">
+                            <input type="hidden" name="pageIndex" value="1"/>
+                            <button type="button" class="btn btn-primary" id="statistics">统计图</button>
+                            <button type="button" class="btn btn-primary" id="excel">Excel</button>
+                            <button type="button" class="btn btn-primary" id="pdf">PDF文件</button>
+                            <!--<button type="submit" class="btn btn-primary" id="sb">查询</button>-->
+
+                            <ul>
+                                <li style="width: 220px;">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4 col-sm-4 col-xs-6">客户名称</label>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            <input name="custName" type="text" th:value="${custName}"
+                                                   class="form-control col-md-6 col-xs-12" value="">
+                                        </div>
+                                    </div>
+                                </li>
+
+                                <li>
+                                    <button type="submit" class="btn btn-primary"> 查 &nbsp;&nbsp;&nbsp;&nbsp;询</button>
+                                </li>
+                            </ul>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_content">
+                        <p class="text-muted font-13 m-b-30"></p>
+                        <div id="datatable-responsive_wrapper"
+                             class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                            <div class="row">
+
+                                <div class="col-sm-12">
+                                    <table id="datatable-responsive"
+                                           class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline collapsed"
+                                           cellspacing="0" width="100%" role="grid"
+                                           aria-describedby="datatable-responsive_info" style="width: 100%;">
+                                        <thead>
+                                        <tr role="row">
+                                            <th class="sorting_asc" tabindex="0"
+                                                aria-controls="datatable-responsive" rowspan="1" colspan="1"
+                                                aria-label="First name: activate to sort column descending"
+                                                aria-sort="ascending">编号
+                                            </th>
+                                            <th class="sorting" tabindex="0"
+                                                aria-controls="datatable-responsive" rowspan="1" colspan="1"
+                                                aria-label="Last name: activate to sort column ascending">
+                                                客户名称
+                                            </th>
+                                            <th class="sorting" tabindex="0"
+                                                aria-controls="datatable-responsive" rowspan="1" colspan="1"
+                                                aria-label="Last name: activate to sort column ascending">
+                                                订单金额(元)
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody >
+
+                                       <tr role="row" class="odd" th:each="statis:${jsonArray}" >
+                                            <td th:text="${statisStat.index+1}">usrId</td>
+                                            <td th:text="${statis.name}">usrName</td>
+                                            <td th:if="${not #strings.isEmpty(statis.value)}" th:text="${statis.value}" >usrName</td>
+                                            <td th:if="${#strings.isEmpty(statis.value)}">0</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                           <div class="row" th:if="${cstCustomersPage.totalElements>5}">
+                                <div class="col-sm-5">
+                                    <div class="dataTables_info" id="datatable-responsive_info"
+                                         role="status" aria-live="polite">共<span th:text="${cstCustomersPage.totalElements }">1</span>条记录
+                                        <span th:text="${cstCustomersPage.number+1 }">1</span>/<span th:text="${cstCustomersPage.totalPages }">1</span>页</div>
+                                </div>
+                                <div class="col-sm-7">
+                                    <div class="dataTables_paginate paging_simple_numbers"
+                                         id="datatable-responsive_paginate">
+                                        <ul class="pagination">
+                                            <li class="paginate_button previous" th:if="${cstCustomersPage.number gt 0}"><a
+                                                    href="javascript:page_nav(document.forms[0],1);"
+                                                    aria-controls="datatable-responsive" data-dt-idx="0"
+                                                    tabindex="0">首页</a>
+                                            </li>
+                                            <li class="paginate_button " th:if="${cstCustomersPage.number gt 0}">
+                                                <a href="#" th:onclick="'javascript:page_nav(document.forms[0],'+${cstCustomersPage.number }+');'"
+                                                   aria-controls="datatable-responsive" data-dt-idx="1"
+                                                   tabindex="0">上一页</a>
+                                            </li>
+                                            <li class="paginate_button " th:if="${cstCustomersPage.number gt 0}"><a
+                                                    href="#"
+                                                    th:onclick="'javascript:page_nav(document.forms[0],'+${cstCustomersPage.number}+');'"
+                                                    aria-controls="datatable-responsive" data-dt-idx="1"
+                                                    tabindex="0">上一页</a>
+                                            </li>
+                                            <li class="paginate_button " th:if="${(cstCustomersPage.number+1) lt cstCustomersPage.totalPages}"><a
+                                                    href="#" th:onclick="'javascript:page_nav(document.forms[0],'+${cstCustomersPage.number+2 }+');'"
+                                                    aria-controls="datatable-responsive" data-dt-idx="1"
+                                                    tabindex="0">下一页</a>
+                                            </li>
+                                            <li class="paginate_button next" th:if="${(cstCustomersPage.number+1) lt cstCustomersPage.totalPages}"><a
+                                                    href="#" th:onclick="'javascript:page_nav(document.forms[0],'+${cstCustomersPage.totalPages }+');'"
+                                                    aria-controls="datatable-responsive" data-dt-idx="7"
+                                                    tabindex="0">最后一页</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="main"  style="width: 800px;height:600px; "></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+
+<script  layout:fragment="js">
+    $("#back").on("click",function(){
+        window.history.back();
+    });
+
+    $.ajax({
+        type:"GET",
+        url:"/statistical/getStatisticalData",
+        dataType:"json",
+        success:function (data) {
+            // 基于准备好的dom，初始化echarts实例
+            var myChart = echarts.init(document.getElementById('main'));
+            var len=new Array();
+            for(var i in data){
+                len.push(data[i].name);
+            }
+            var option = {
+                title: {
+                    text: '客户贡献统计图',
+                    left: 'center'
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: '{a} <br/>{b} : {c} ({d}%)'
+                },
+                legend: {
+                    // orient: 'vertical',
+                    // top: 'middle',
+                    bottom: 10,
+                    left: 'center',
+                    data: len
+                },
+                series: [
+                    {
+                        name:'订单金额',
+                        type: 'pie',
+                        radius: '65%',
+                        center: ['50%', '50%'],
+                        selectedMode: 'single',
+                        data: data,
+                        emphasis: {
+                            itemStyle: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        }
+                    }
+                ]
+            };
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+        },
+        error:function(data){
+            alert("获取数据失败");
+        }
+    })
+
+</script>
+</html>

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{main}"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head>
+    <title>客户开发计划</title>
+    <link th:href="@{/localcss/crmlist.css}" href="../static/localcss/crmadd.css" rel="stylesheet">
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="">
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>执行计划 <i class="fa fa-user"></i></h2>
+                        <span style="color: white;">看不见我</span>
+                        <button type="button"  class="btn btn-primary"  id="terminationDev" th:onclick="|devStatus(3,${salChance.id})|">终止开发</button>
+                        <button type="button"  class="btn btn-primary"  id="succeedDev" th:onclick="|devStatus(2,${salChance.id})|">开发成功</button>
+                        <a type="button"  class="btn btn-primary"  id="formulatePlan" th:href="@{/salPlan/formulatePlan(id=${salChance.id})}">制定计划</a>
+                        <button type="button"  class="btn btn-primary" id="back"  >返回</button>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <div class="clearfix"></div>
+                        <form class="form-horizontal form-label-left" th:action="@{/salPlan/assignSave}" action="/user/save" method="post">
+                            <input type="hidden" name="plaChcId" id="plaChcId" value="1" th:value="${salChance.id}">
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="custId"> 编号:
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="custId" class="form-control col-md-7 col-xs-12"
+                                           data-validate-length-range="10" data-validate-words="1"  name="id" readonly="readonly"
+                                           type="text" th:value="${salChance.id}"/>
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="custName"> 客户名称:
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="custName" class="form-control col-md-7 col-xs-12"
+                                           data-validate-length-range="10" data-validate-words="1"  readonly="readonly"
+                                           type="text" th:value="${salChance.custName}"/>
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="linkman"> 负责人
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="linkman" class="form-control col-md-7 col-xs-12"
+                                           data-validate-length-range="10" data-validate-words="1"  readonly="readonly"
+                                           type="text" th:value="${salChance.linkman}"/>
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="source"> 机会来源
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="source" class="form-control col-md-7 col-xs-12"
+                                           data-validate-length-range="10" data-validate-words="1"  readonly="readonly"
+                                           type="text" th:value="${salChance.source}"/>
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="rate"> 成功机率（%）
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="rate" class="form-control col-md-7 col-xs-12"
+                                           data-validate-length-range="10" data-validate-words="1"  readonly="readonly"
+                                           type="number" th:value="${salChance.rate}"/>
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="tel"> 公司电话
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="tel" class="form-control col-md-7 col-xs-12"
+                                           data-validate-length-range="10" data-validate-words="1"  readonly="readonly"
+                                           type="text" th:value="${salChance.tel}"/>
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="title"> 概要
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="title" class="form-control col-md-7 col-xs-12"
+                                           data-validate-length-range="10" data-validate-words="1"  readonly="readonly"
+                                           type="text" th:value="${salChance.title}"/>
+                                </div>
+                            </div>
+
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="desc"> 机会描述
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="desc" class="form-control col-md-7 col-xs-12"
+                                           data-validate-length-range="10" data-validate-words="1"  readonly="readonly"
+                                           type="text" th:value="${salChance.desc}"/>
+                                </div>
+                            </div>
+                            <hr/>
+                            <div class="form-group" style="margin-top: 8px;background-color: #6EC2FD">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="desc" style="color: white;right: 106px;">日期</label>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12" style="right: 20px; color: white" for="desc">计划项
+                                </label>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12" style="left: 60px; color: white" for="desc">执行效果
+                                </label>
+                            </div>
+                            <!-- <div  >-->
+                            <!--<tbody>
+                            <tr  th:each="salPlans:${salPlans}">
+                            <div class="form-group" style=" border-bottom: 1px solid black; ">
+                                    <td>
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="desc" name="plaDate" th:text="${salPlans.plaDate}">666
+                                    </label>
+                                    </td>
+                                    <td><p class="col-md-3 col-sm-3 col-xs-12" style="margin-left: 80px">
+                                    <input type="text" class="form-control col-md-3 col-xs-12" th:value="${salPlans.plaTodo}" readonly/>
+                                    <a id="delPlan" type="button" class="btn btn-success" style="position: absolute;left: 320px;" th:onclick="|doDel(this,${salPlans.plaId})|">删除</a></p>
+                                    </td>
+                            </div>
+                            </tr>
+                            </tbody>-->
+                            <!--<p style="border-top: 0.5px solid blackqz; width: 1000px; border-bottom: 0.5px solid black; width: 1000px;"></p>-->
+                            <!--</div>-->
+
+                            <div class="col-sm-10">
+                                <table id="datatable-responsive"
+                                       class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline collapsed"
+                                       cellspacing="0" width="80%" role="grid"
+                                       aria-describedby="datatable-responsive_info" style="width: 100%;">
+                                    <tbody id="plans">
+                                    <tr  th:each="salPlans:${salPlans}">
+                                        <td th:text="${salPlans.plaDate}" style="width: 280px; text-align: center;">plaDate</td>
+                                        <td th:text="${salPlans.plaTodo}" style="width: 280px; text-align: center;">plaTodo</td>
+                                        <td th:text="${salPlans.plaResult}" th:if="${not #strings.isEmpty(salPlans.plaResult)}" style="width: 280px; text-align: center; border-right: none;">plaResult</td>
+                                        <td  th:if="${#strings.isEmpty(salPlans.plaResult)}" style="width: 280px; text-align: center; border-right: none;"><input type="text" style=" height: 20px; width: 251px;" id="implementationEffect"/></td>
+                                        <td width="40" style="background-color: #F9F9F9; border-left: none; text-align: center;" th:if="${not #strings.isEmpty(salPlans.plaResult)}"></td>
+                                        <td width="60" style="background-color: #6EC2FD; text-align: center;" th:if="${#strings.isEmpty(salPlans.plaResult)}" ><a id="delPlan" type="button" style="text-align: center;"  th:onclick="|doSaveResult(this,${salPlans.plaId})|">保存</a></td><!--按钮-->
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- <p class="x_title">-->
+                           <!-- <div class="col-sm-4" style="width: 813px; height: 36px; border: 1px solid blue; position: relative; top: 10px;">
+                                <div style="width: 200px; height: 34px; border: 1px solid #6EC2FD; background-color: #6EC2FD; ">
+                                    <p style="text-align: center;line-height: 30px; color: black;">日期</p>
+                                </div>
+                                <div style="width: 200px; height: 34px; border: 1px solid #EEEEFE ; background-color: #EEEEFE; position: absolute; left: 208px; top: -0.1px;">
+                                    <p style="text-align: center;line-height: 30px; color: black" id="nowDate" ></p>
+                                </div>
+                                <div style="width: 200px; height: 34px; border: 1px solid #6EC2FD; background-color: #6EC2FD; position: absolute; left: 409px;  top: -0.1px;">
+                                    <p style="text-align: center;line-height: 30px; color: black;">计划项</p>
+                                </div>
+                                <div style="width: 200px; height: 34px; border: 1px solid #EEEEFE; background-color: #EEEEFE; position: absolute; left: 610px;  top: -0.1px;">
+                                    <p style="text-align: center;line-height: 30px;"><input type="text" style="height:33px; width: 199px; " id="plaTodo"/></p>
+                                </div>
+                                &lt;!&ndash;   <div style="width: 200px; height: 34px; border: 1px solid #EEEEFE; background-color: #EEEEFE; position: absolute; left: 610px;  top: -0.1px;">
+                                       <p style="text-align: center;line-height: 30px;"><input type="text" style="height:33px; width: 199px; "></p>
+                                   </div>&ndash;&gt;
+                                <div style="width: 0px; height: 34px; border: 1px solid #EEEEFE;  position: absolute; left: 811px;  top: -0.1px;">
+                                    <button id="send" type="button" class="btn btn-success left " th:onclick="|doAdd()|">保存</button>
+                                </div>
+
+                            </div>-->
+                            <!-- </p>-->
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="color: #F7F7F7;"> ****************************</div>
+    <div style="color: #F7F7F7;"> ****************************</div>
+
+</div>
+
+</body>
+<script layout:fragment="js" th:inline="javascript">
+    $(document).ready(function(){
+        $("#back").on("click",function(){
+            window.history.back();
+
+        });
+
+    });
+        function doSaveResult(obj,plaId) {
+            var plaResult=$("#implementationEffect").val();
+            $.ajax({
+                type: "GET",
+                url: "/salPlan/saveResult",
+                data: {"plaId":plaId,"plaResult":plaResult},
+                dataType: "json",
+                success: function (data) {
+                    if (data.flag == "true") {
+                        //alert("保存成功")
+                        $(obj).parent().prev().replaceWith("<td style=\"width: 280px; text-align: center; border-right: none;\">"+plaResult+"</td><td width=\"40\" style=\"background-color: #F9F9F9; border-left: none; text-align: center;\"></td>")
+                        $(obj).parent().remove();
+                    }
+                },
+                error: function (data) {
+                    alert("保存失败");
+                }
+            })
+        }
+        function devStatus(status,id) {
+            $.ajax({
+                type: "GET",
+                url: "/salPlan/devStatus",
+                data: {"status":status,"id":id},
+                dataType: "json",
+                success: function (data) {
+                    if (data.flag == "succeed") {//删除成功：移除删除行
+                        alert("开发成功,已归档！");
+                        location.href="/salPlan/devplanlist";
+                    }else {
+                        alert("开发失败,已归档！");
+                        location.href="/salPlan/devplanlist";
+                    }
+                },
+                error: function (data) {
+                    alert("开发异常,请联系管理员");
+                }
+            });
+        }
+        $("#terminationDev").click(function () {
+            $(this).attr('disabled', true);
+        })
+        $("#succeedDev").click(function () {
+         $(this).attr('disabled', true);
+        })
+</script>
+</html>

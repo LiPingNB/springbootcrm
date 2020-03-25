@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>if/unless</title>
+</head>
+<body>
+<a th:if="${flag=='yes'}" th:href="@{http://www.ktjiao.com/}">ktjiaoyuSB</a>
+<a th:unless="${flag=='no'}" th:href="@{http://www.czkt.com/}">czkt</a>
+</body>
+</html>

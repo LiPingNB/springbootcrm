@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.ar/thymeleaf/shiro">
+<head>
+    <meta charset="UTF-8"></meta>
+    <title>left</title>
+</head>
+<body>
+<left th:fragment="lefter">
+    <div class="left_col scroll-view">
+        <div class="navbar nav_title" style="border: 0;">
+            <a th:href="@{/main}" href="/main" class="site_title">
+                <i class="fa fa-paw"></i>
+                <span>CRM</span>
+            </a>
+        </div>
+
+        <div class="clearfix"></div>
+
+        <!-- menu profile quick info -->
+        <div class="profile">
+            <div class="profile_pic">
+                <img th:src="@{/uploadfile/李平帅哥.jpg}" src="../static/uploadfile/李平帅哥.jpg"
+                     alt="..." class="img-circle profile_img">
+            </div>
+            <div class="profile_info">
+                <span>Welcome,</span>
+                <h2 th:text="${session.loginUser.usrName}"></h2>
+            </div>
+        </div>
+        <!-- /menu profile quick info -->
+
+        <br/>
+
+        <!-- sidebar menu -->
+        <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+            <div class="menu_section">
+                <h3 th:text="${session.loginUser.role.roleName}">角色</h3>
+                <ul class="nav side-menu">
+                    <li><a><i class="fa fa-edit"></i> 营销管理 <span
+                            class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <shiro:hasPermission name="用户管理">
+                            <li>
+                                <a href="/user/list" th:href="@{/user/list}">用户管理</a>
+                            </li>
+                            </shiro:hasPermission>
+                            <shiro:hasPermission name="销售机会管理">
+                                <li>
+                                    <a href="/salChance/list" th:href="@{/salChance/salChancelist}">销售机会管理</a>
+                                </li>
+                            </shiro:hasPermission>
+                            <shiro:hasPermission name="客户开发计划">
+                            <li>
+                                <a href="/salPlan/devplanlist" th:href="@{/salPlan/devplanlist}">客户开发计划</a>
+                            </li>
+                           </shiro:hasPermission>
+                        </ul>
+                    </li>
+                    <li><a><i class="fa fa-edit"></i> 客户管理 <span
+                            class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <shiro:hasPermission name="客户信息管理">
+                                <li>
+                                    <a href="/customer/customerList" th:href="@{/customer/customerList}">客户信息管理</a>
+                                </li>
+                            </shiro:hasPermission>
+                            <shiro:hasPermission name="客户流失管理">
+                                <li>
+                                    <a href="/customer/customerList" th:href="@{/customer/customerLostList}">客户流失管理</a>
+                                </li>
+                            </shiro:hasPermission>
+                        </ul>
+                    </li>
+                    <li><a><i class="fa fa-edit"></i> 服务管理 <span
+                            class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li>
+                                <a href="/customer/customerList" th:href="@{/serviceManage/toserviceCreation}">服务创建</a>
+                            </li>
+                            <li>
+                                <a href="/customer/customerList" th:href="@{/serviceManage/serviceAllocationList}">服务分配</a>
+                            </li>
+                            <li>
+                                <a href="/customer/customerList" th:href="@{/serviceManage/serviceProcessingList}">服务处理</a>
+                            </li>
+                            <li>
+                                <a href="/customer/customerList" th:href="@{/serviceManage/serviceFeedbackList}">服务反馈</a>
+                            </li>
+                            <li>
+                                <a href="/customer/customerList" th:href="@{/serviceManage/serviceArchiveList}">服务归档</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a><i class="fa fa-edit"></i> 统计报表 <span
+                            class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li>
+                                <a href="/customer/customerList" th:href="@{/statistical/CustomerContributionsList}">客户贡献分析</a>
+                            </li>
+                            <li>
+                                <a href="/customer/customerList" th:href="@{/statistical/CustomergouChengList}">客户构成分析</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- /sidebar menu -->
+
+        <!-- /menu footer buttons -->
+        <div class="sidebar-footer hidden-small">
+            <a data-toggle="tooltip" data-placement="top" title="设置">
+                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+            </a>
+            <a data-toggle="tooltip" data-placement="top" title="全屏">
+                <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
+            </a>
+            <a data-toggle="tooltip" data-placement="top" title="锁定">
+                <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+            </a>
+            <a data-toggle="tooltip" data-placement="top" title="退出"
+               th:href="@{/logout}" href="/logout">
+                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+            </a>
+        </div>
+        <!-- /menu footer buttons -->
+    </div>
+</left>
+</body>
+</html>

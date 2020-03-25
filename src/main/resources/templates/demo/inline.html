@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>inline</title>
+</head>
+<body>
+<div th:inline="text">
+<p>Hello,[[${userName}]]</p>
+    <br/>
+</div>
+</body>
+<script th:inline="javascript">
+var msg='Helllo'+[[${userName}]]+'!';
+alert(msg);
+</script>
+</html>

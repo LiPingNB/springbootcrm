@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{main}"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head>
+    <title>客户开发计划</title>
+    <link th:href="@{/localcss/crmlist.css}" href="../static/localcss/crmlist.css" rel="stylesheet">
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="">
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>客户开发计划 <i class="fa fa-user"></i>
+                            <small>
+                                - 您可以通过搜索或者其他的筛选项对用户的信息进行编辑、删除等管理操作。^_^
+                            </small>
+                        </h2>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <form method="post" action="/sal/devplanlist" th:action="@{/salPlan/devplanlist}">
+                            <input type="hidden" name="pageIndex" value="1"/>
+                            <ul>
+                                <li>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">客户名称</label>
+                                        <div class="col-md-5 col-sm-5 col-xs-12">
+                                            <input name="custName" type="text" th:value="${custName}"
+                                                   class="form-control col-md-5 col-xs-12" value="">
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">负责人</label>
+                                        <div class="col-md-5 col-sm-5 col-xs-12">
+                                            <input name="linkman" type="text" th:value="${linkman}"
+                                                   class="form-control col-md-5 col-xs-12" value="">
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-2 col-sm-2 col-xs-12">概要</label>
+                                        <div class="col-md-5 col-sm-5 col-xs-12">
+                                            <input name="title" type="text" th:value="${title}"
+                                                   class="form-control col-md-5 col-xs-12" value="">
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <button type="submit" class="btn btn-primary "> 查 &nbsp;&nbsp;&nbsp;&nbsp;询</button>
+                                </li>
+                            </ul>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_content">
+                        <p class="text-muted font-13 m-b-30"></p>
+                        <div id="datatable-responsive_wrapper"
+                             class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <!--<a href="/user/add" th:href="@{/sal/add}"
+                                       class="btn btn-success btn-sm">新增销售机会</a>-->
+                                    <table id="datatable-responsive"
+                                           class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline collapsed"
+                                           cellspacing="0" width="100%" role="grid"
+                                           aria-describedby="datatable-responsive_info" style="width: 100%;">
+                                        <thead>
+                                        <tr role="row">
+                                            <th class="sorting_asc" tabindex="0"
+                                                aria-controls="datatable-responsive" rowspan="1" colspan="1"
+                                                aria-label="First name: activate to sort column descending"
+                                                aria-sort="ascending">编号
+                                            </th>
+                                            <th class="sorting" tabindex="0"
+                                                aria-controls="datatable-responsive" rowspan="1" colspan="1"
+                                                aria-label="Last name: activate to sort column ascending">
+                                                客户名称
+                                            </th>
+                                            <th class="sorting" tabindex="0"
+                                                aria-controls="datatable-responsive" rowspan="1" colspan="1"
+                                                aria-label="Last name: activate to sort column ascending">
+                                                负责人
+                                            </th>
+                                            <th class="sorting" tabindex="0"
+                                                aria-controls="datatable-responsive" rowspan="1" colspan="1"
+                                                aria-label="Last name: activate to sort column ascending">
+                                                公司电话
+                                            </th>
+                                            <th class="sorting" tabindex="0"
+                                                aria-controls="datatable-responsive" rowspan="1" colspan="1"
+                                                aria-label="Last name: activate to sort column ascending">
+                                                状态
+                                            </th>
+                                            <th class="sorting" tabindex="0"
+                                                aria-controls="datatable-responsive" rowspan="1" colspan="1"
+                                                aria-label="Last name: activate to sort column ascending">
+                                                概要
+                                            </th>
+                                            <th class="sorting" tabindex="0"
+                                                aria-controls="datatable-responsive" rowspan="1" colspan="1"
+                                                aria-label="Last name: activate to sort column ascending">
+                                                操作
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr role="row" class="odd" th:each="devplan:${devplanPager.content}">
+                                            <td tabindex="0" class="sorting_1" th:text="${devplan.id}">usrId</td>
+                                            <td th:text="${devplan.custName}">usrName</td>
+                                            <td th:text="${devplan.linkman}">usrName</td>
+                                            <td th:text="${devplan.tel}">usrName</td>
+                                            <td th:if="${devplan.status==1}">开发中</td>
+                                            <td th:if="${devplan.status==2 || devplan.status==3}">已归档</td>
+                                            <td th:text="${devplan.title}">usrName</td>
+                                            <td>
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-danger">点击操作</button>
+                                                    <button type="button" class="btn btn-danger dropdown-toggle"
+                                                            data-toggle="dropdown" aria-expanded="false">
+                                                        <span class="caret"></span>
+                                                        <span class="sr-only">Toggle Dropdown</span>
+                                                    </button>
+                                                    <ul class="dropdown-menu" role="menu" th:if="${devplan.status==1}">
+                                                        <li><a class="assignInfo" href="/salPlan/assign?id=1" th:href="@{/salPlan/formulatePlan(id=${devplan.id})}"
+                                                               data-toggle="tooltip" data-placement="top" title=""
+                                                               data-original-title="制定计划">制定计划</a></li>
+                                                        <li><a class="assignInfo" href="/salPlan/assign?id=1" th:href="@{/salPlan/toexecute(id=${devplan.id})}"
+                                                               data-toggle="tooltip" data-placement="top" title=""
+                                                               data-original-title="执行计划">执行计划</a></li>
+                                                        <li><a class="assignInfo" href="#" th:onclick="|devStatus(2,${devplan.id})|"
+                                                               data-toggle="tooltip" data-placement="top" title=""
+                                                               data-original-title="开发成功">开发成功</a></li>
+                                                    </ul>
+                                                    <ul class="dropdown-menu" role="menu" th:if="${devplan.status ==2 || devplan.status == 3}">
+                                                        <li><a class="assignInfo" href="/salPlan/assign?id=1" th:href="@{/salPlan/look(id=${devplan.id})}"
+                                                               data-toggle="tooltip" data-placement="top" title=""
+                                                               data-original-title="查看">查看</a></li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-5">
+                                    <div class="dataTables_info" id="datatable-responsive_info"
+                                         role="status" aria-live="polite">共<span th:text="${devplanPager.totalElements }">1</span>条记录
+                                        <span th:text="${devplanPager.number+1 }">1</span>/<span th:text="${devplanPager.totalPages }">1</span>页</div>
+                                </div>
+                                <div class="col-sm-7">
+                                    <div class="dataTables_paginate paging_simple_numbers"
+                                         id="datatable-responsive_paginate">
+                                        <ul class="pagination">
+                                            <li class="paginate_button previous" th:if="${devplanPager.number gt 0}"><a
+                                                    href="javascript:page_nav(document.forms[0],1);"
+                                                    aria-controls="datatable-responsive" data-dt-idx="0"
+                                                    tabindex="0">首页</a>
+                                            </li>
+                                            <!--                                            <li class="paginate_button " th:if="${userPager.number gt 0}"><a-->
+                                            <!--                                                    href="#" th:onclick="'javascript:page_nav(document.forms[0],'+${userPager.number }+');'"-->
+                                            <!--                                                    aria-controls="datatable-responsive" data-dt-idx="1"-->
+                                            <!--                                                    tabindex="0">上一页</a>-->
+                                            <!--                                            </li>-->
+                                            <li class="paginate_button " th:if="${devplanPager.number gt 0}"><a
+                                                    href="#"
+                                                    th:onclick="'javascript:page_nav(document.forms[0],'+${devplanPager.number}+');'"
+                                                    aria-controls="datatable-responsive" data-dt-idx="1"
+                                                    tabindex="0">上一页</a>
+                                            </li>
+                                            <li class="paginate_button " th:if="${(devplanPager.number+1) lt devplanPager.totalPages}"><a
+                                                    href="#" th:onclick="'javascript:page_nav(document.forms[0],'+${devplanPager.number+2 }+');'"
+                                                    aria-controls="datatable-responsive" data-dt-idx="1"
+                                                    tabindex="0">下一页</a>
+                                            </li>
+                                            <li class="paginate_button next" th:if="${(devplanPager.number+1) lt devplanPager.totalPages}"><a
+                                                    href="#" th:onclick="'javascript:page_nav(document.forms[0],'+${devplanPager.totalPages }+');'"
+                                                    aria-controls="datatable-responsive" data-dt-idx="7"
+                                                    tabindex="0">最后一页</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script layout:fragment="js">
+    function doDel(obj,id){
+        if(confirm("你确定需要删除该营销信息吗？")){
+            $.ajax({
+                type:"GET",
+                url:"/salPlan/del",
+                data:"id="+id,
+                dataType:"json",
+                success:function(data){
+                    if(data.flag == "true"){//删除成功：移除删除行
+                        alert("删除成功！");
+                        $(obj).parents("tr").remove();
+                    }
+                },
+                error:function(data){
+                    alert("对不起，删除失败！");
+                }
+            });
+        }
+    }
+    function devStatus(status,id) {
+        $.ajax({
+            type: "GET",
+            url: "/salPlan/devStatus",
+            data: {"status":status,"id":id},
+            dataType: "json",
+            success: function (data) {
+                if (data.flag == "succeed") {//删除成功：移除删除行
+                    alert("开发成功,已归档！");
+                    //location.href="/salPlan/devplanlist";
+                    location.reload();
+                }else {
+                    alert("开发失败,已归档！");
+                    //location.href="/salPlan/devplanlist";
+                    location.reload();
+                }
+            },
+            error: function (data) {
+                alert("开发异常,请联系管理员");
+            }
+        });
+    }
+</script>
+</html>

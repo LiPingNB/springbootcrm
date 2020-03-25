@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{main}"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head>
+    <title>服务管理</title>
+    <link th:href="@{/localcss/crmlist.css}" href="../static/localcss/crmlist.css" rel="stylesheet">
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="">
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>客户服务管理 > 服务创建 <i class="fa fa-user"></i>
+                        </h2>
+                        <button type="button" class="btn btn-primary" id="back">返回</button>
+                        <button id="send" type="submit" class="btn btn-success" >保存</button>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <form th:action="@{/serviceManage/serviceCreationSave}" method="post">
+                        <div class="col-sm-4" style="width: 813px; height: 36px; border: 1px solid blue; border-bottom: none; position: relative; top: 10px;">
+                            <div style="width: 200px; height: 34px; border: 1px solid #6EC2FD; background-color: #6EC2FD; ">
+                                <p style="text-align: center;line-height: 30px; color: black;">客户</p>
+                            </div>
+                            <div style="width: 200px; height: 34px; border: 1px solid #EEEEFE ; background-color: #EEEEFE; position: absolute; left: 208px; top: -0.1px;">
+                                <input type="hidden" id="svrCustNo" name="svrCustNo" value="1"/>
+                                <input type="hidden" id="svrCustName" name="svrCustName" value="1"/>
+
+                                <p style="text-align: center;line-height: 30px; color: black" ><select name="svrCustNameAndNo"  id="svrCustNameAndNo"  required="required" >
+                                    <option  th:each="data:${session.custList}" th:value="${data.custNo}" th:text="${data.custName}" >客户</option>
+                                </select></p>
+                            </div>
+                            <div style="width: 200px; height: 34px; border: 1px solid #6EC2FD; background-color: #6EC2FD; position: absolute; left: 409px;  top: -0.1px;">
+                                <p style="text-align: center;line-height: 30px; color: black;">服务类型</p>
+                            </div>
+                            <div style="width: 200px; height: 34px; border: 1px solid #EEEEFE; background-color: #EEEEFE; position: absolute; left: 610px;  top: -0.1px;">
+                                <p style="text-align: center;line-height: 30px; color: black" >
+                                    <select name="svrType">
+                                    <option  value="咨询">咨询</option>
+                                    <option  value="投诉">投诉</option>
+                                    <option  value="建议">建议</option>
+                                    </select>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-sm-4" style="width: 813px; height: 36px; border: 1px solid blue; border-bottom: none; position: relative; top: 10px;">
+                            <div style="width: 200px; height: 34px; border: 1px solid #6EC2FD; background-color: #6EC2FD; ">
+                                <p style="text-align: center;line-height: 30px; color: black;">创建人</p>
+                            </div>
+                            <div style="width: 200px; height: 34px; border: 1px solid #EEEEFE ; background-color: #EEEEFE; position: absolute; left: 208px; top: -0.1px;">
+                                <input type="hidden" name="svrCreateId" th:value="${session.loginUser.usrId}"/>
+                                <p style="text-align: center;line-height: 26px; color: black"  ><input id="svrCreateBy" name="svrCreateBy" th:value="${session.loginUser.usrName}" required/></p>
+                            </div>
+                            <div style="width: 200px; height: 34px; border: 1px solid #6EC2FD; background-color: #6EC2FD; position: absolute; left: 409px;  top: -0.1px;">
+                                <p style="text-align: center;line-height: 30px; color: black;">状态</p>
+                            </div>
+                            <div style="width: 200px; height: 34px; border: 1px solid #EEEEFE; background-color: #EEEEFE; position: absolute; left: 610px;  top: -0.1px;">
+                                <p style="text-align: center;line-height: 26px; color: black"  ><input name="svrStatus" value="新创建" style="border: none;background-color: #EEEEFE;"/></p>
+                            </div>
+                        </div>
+                        <div class="col-sm-4" style="width: 813px; height: 36px; border: 1px solid blue; position: relative; top: 10px;">
+                            <div style="width: 200px; height: 34px; border: 1px solid #6EC2FD; background-color: #6EC2FD; ">
+                                <p style="text-align: center;line-height: 30px; color: black;">概要</p>
+                            </div>
+                            <div style="width: 200px; height: 34px; border: 1px solid #EEEEFE ; background-color: #EEEEFE; position: absolute; left: 208px; top: -0.1px;">
+                                <p style="text-align: center;line-height: 26px; color: black"   ><input id="svrTitle" name="svrTitle" required/></p>
+                            </div>
+                            <div style="width: 200px; height: 34px; border: 1px solid #6EC2FD; background-color: #6EC2FD; position: absolute; left: 409px;  top: -0.1px;">
+                                <p style="text-align: center;line-height: 30px; color: black;">创建时间</p>
+                            </div>
+                            <div style="width: 200px; height: 34px; border: 1px solid #EEEEFE; background-color: #EEEEFE; position: absolute; left: 610px;  top: -0.1px;">
+                                <p style="text-align: center;line-height: 26px; color: black" id="createDate" ></p>
+                            </div>
+                        </div>
+                        <div class="col-sm-4" style="width: 813px; height: 73px; border: 1px solid blue; position: relative; top: 10px; border-top: none;">
+                            <div style="width: 200px; height: 73px; border: 1px solid #6EC2FD; background-color: #6EC2FD; ">
+                                <p style="text-align: center;line-height: 70px; color: black;">服务请求</p>
+                            </div>
+                            <div style="width: 200px; height: 34px; border: 1px solid #EEEEFE ;  position: absolute; left: 208px; top: -0.1px;">
+                                <p style="line-height: 25px; color: black"  ><textarea id="svrRequest" name="svrRequest"  required ></textarea></p>
+                            </div>
+                            <button id="save" type="submit" style="display: none;"></button>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script  layout:fragment="js">
+    $("#back").on("click",function(){
+        window.history.back();
+    });
+    $("#send").click(function () {
+        $("#save").click();
+
+        /*var obj=JSON.stringify({"svrCustName":$("#svrCustName").val(),
+            "svrType":$("#svrType").val(),"svrCustName":$("#svrCustName").val(),
+            "svrStatus":$("#svrStatus").val(),"svrTitle":$("#svrTitle").val(),
+            "svrRequest":$("#svrRequest").val()});
+
+        $.ajax({
+            type:"POST",
+            url:"/serviceManage/serviceCreationSave",
+            data:obj,
+            dataType:"application/json",
+            success:function(data){
+                alert("保存成功");
+            },
+            error:function(data){
+                alert("保存失败");
+            }
+        });*/
+
+
+
+           /* var $addstatus=$("#addStatus").val();
+            if ($addstatus=="true"){
+                alert($addstatus)
+                alert("保存成功");
+            }else {
+                alert($addstatus);
+                alert("保存失败");
+            }*/
+
+    });
+    //判断是否在前面加0
+    function getNow(s) {
+        return s < 10 ? '0' + s: s;
+    }
+    //时间
+    var myDate = new Date();
+    var year=myDate.getFullYear();        //获取当前年
+    var month=myDate.getMonth()+1;   //获取当前月
+    var date=myDate.getDate();            //获取当前日
+    var h=myDate.getHours();              //获取当前小时数(0-23)
+    var m=myDate.getMinutes();          //获取当前分钟数(0-59)
+    var s=myDate.getSeconds();
+    var now=year+'-'+getNow(month)+"-"+getNow(date)+" "+getNow(h)+':'+getNow(m)+":"+getNow(s);
+    $("#createDate").text(now);
+    $(function () {
+       $("#svrCustNo").val($("#svrCustNameAndNo").val());
+        $("#svrCustName").val($("#svrCustNameAndNo option:selected").text());
+    })
+    $("#svrCustNameAndNo").change(function () {
+        var $custNo=$("#svrCustNameAndNo").val();
+        var $custName=$("#svrCustNameAndNo option:selected").text();
+        $("#svrCustNo").val($custNo);
+        $("#svrCustName").val($custName);
+    })
+</script>
+</html>

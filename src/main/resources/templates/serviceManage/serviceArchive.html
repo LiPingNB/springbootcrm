@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{main}"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head>
+    <title>服务管理</title>
+    <link th:href="@{/localcss/crmlist.css}" href="../static/localcss/crmlist.css" rel="stylesheet">
+    <link th:href="@{/css/style.css}" rel="stylesheet" type="text/css">
+    <style>
+        td{color:black}
+    </style>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="">
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>客户服务管理 > 服务归档 <i class="fa fa-user"></i>
+                        </h2>
+                        <button type="button" class="btn btn-primary" id="back">返回</button>
+                        <button type="button" class="btn btn-primary" id="save" th:onclick="|saveDispose()|">保存</button>
+                        <div class="clearfix"></div>
+
+                    </div>
+
+                    <div class="x_content">
+                        <table class="query_form_table">
+                            <tr>
+                                <th>编号</th>
+                                <td th:text="${cstService.svrId}" id="svrId">456</td>
+                                <th>服务类型</th>
+                                <td th:text="${cstService.svrType}">咨询</td>
+                            </tr>
+                            <tr>
+                                <th>概要</th>
+                                <td colspan="3" th:text="${cstService.svrTitle}">询问收音机订单运费承担方式</td>
+                            </tr>
+                            <tr>
+                                <th>客户</th>
+                                <td th:text="${cstService.svrCustName}">太阳药业</td>
+                                <th>状态</th>
+                                <td th:text="${cstService.svrStatus}">已分配</td>
+                            </tr>
+                            <tr>
+                                <th>服务请求</th>
+                                <td colspan="3" th:text="${cstService.svrRequest}">收音机订单运费如何承担？<br>
+                                    　</td>
+                            </tr>
+                            <tr>
+                                <th>创建人</th>
+                                <td th:text="${cstService.svrDueDate}">小明</td>
+                                <th>创建时间</th>
+                                <td th:text="${cstService.svrCreateDate}">2007年12月02日 15时26分58秒</td>
+                            </tr>
+                        </table>
+                        <br />
+                        <table class="query_form_table" id="table3">
+                            <tr>
+                                <th>分配给</th>
+                                <td th:text="${cstService.svrDueTo}">
+                                    旺财</td>
+                                <th>分配时间</th>
+                                <td th:text="${cstService.svrDueDate}">2007年12月02日 15时28分06秒</td>
+                            </tr>
+                        </table>
+                        <br />
+                        <table class="query_form_table" id="table1">
+                            <tr>
+                                <th>服务处理</th>
+                                <td colspan="3" th:text="${cstService.svrDeal}" ></td>
+                            </tr>
+                            <tr>
+                                <th>处理人</th>
+                                <td th:text="${cstService.svrDealBy}"></td>
+                                <th>处理时间</th>
+                                <td th:text="${cstService.svrDealDate}"></td>
+                            </tr>
+                        </table>
+                        <br />
+                        <table disabled class="query_form_table" id="table2">
+                            <tr>
+                                <th>处理结果</th>
+                                <td th:text="${cstService.svrResult}">1</td>
+                                <th>满意度</th>
+                                <td th:if="${cstService.svrSatisfy==5}">☆☆☆☆☆</td>
+                                <td th:if="${cstService.svrSatisfy==4}">☆☆☆☆</td>
+                                <td th:if="${cstService.svrSatisfy==3}">☆☆☆</td>
+                                <td th:if="${cstService.svrSatisfy==2}">☆☆</td>
+                                <td th:if="${cstService.svrSatisfy==1}">☆</td>
+                            </tr>
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+<script  layout:fragment="js">
+    $("#back").on("click",function(){
+        window.history.back();
+    });
+
+    //判断是否在前面加0
+    function getNow(s) {
+        return s < 10 ? '0' + s: s;
+    }
+    //时间
+    var myDate = new Date();
+    var year=myDate.getFullYear();        //获取当前年
+    var month=myDate.getMonth()+1;   //获取当前月
+    var date=myDate.getDate();            //获取当前日
+    var h=myDate.getHours();              //获取当前小时数(0-23)
+    var m=myDate.getMinutes();          //获取当前分钟数(0-59)
+    var s=myDate.getSeconds();
+    var now=year+'-'+getNow(month)+"-"+getNow(date)+" "+getNow(h)+':'+getNow(m)+":"+getNow(s);
+    $("#svrDealDate").val(now);
+
+    function saveDispose() {
+        var svrDealBy=$("#svrDealBy").val();
+        var svrDealDate=$("#svrDealDate").val();
+        var svrResult=$("#svrResult").val();
+        var svrSatisfy=$("#svrSatisfy").val();
+        if (svrDealBy==''||svrDealDate==''||svrResult==''||svrSatisfy=='请选择...'){
+            alert("请填写完整信息");
+            return;
+        }
+        var svrId=$("#svrId").text();
+        $.ajax({
+            type:"GET",
+            url:"/serviceManage/serviceFeedbacksave",
+            data:{ "svrDealBy":svrDealBy,"svrDealDate":svrDealDate,"svrResult":svrResult,"svrSatisfy":svrSatisfy,"svrId":svrId},
+            dataType:"json",
+            success:function (data) {
+                if (data.flag=="true"){
+                    alert("保存成功");
+                    location.href="/serviceManage/serviceFeedbackList";
+                }
+            },
+            error:function(data){
+                alert("保存失败");
+            }
+        })
+    }
+</script>
+</html>

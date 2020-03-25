@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>list</title>
+</head>
+<body>
+<table border="1">
+<tr>
+    <th>usrId</th>
+    <th>usrName</th>
+    <th>roleName</th>
+    <th>index</th>
+</tr>
+    <tr th:each="user,status:${users}">
+        <td th:text="${user.usrId}">1</td>
+        <td th:text="${user.usrName}">科泰教育</td>
+        <td th:text="${user.role.roleName}">教育集团</td>
+        <td th:text="${status.even}">0</td>
+    </tr>
+</table>
+</body>
+</html>

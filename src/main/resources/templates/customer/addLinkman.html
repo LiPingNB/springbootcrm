@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{main}"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head>
+    <title>客户管理</title>
+    <link th:href="@{/localcss/crmlist.css}" href="../static/localcss/crmlist.css" rel="stylesheet">
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="">
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>客户信息管理 > 客户信息 > 联系人 > 新建联系人<i class="fa fa-user"></i>
+                        </h2>
+                        <div class="clearfix"></div>
+                    </div>
+                    <button type="button" class="btn btn-primary" id="back">返回</button>
+                    <button id="send" type="submit" class="btn btn-success">保存</button>
+                    <div class="x_content">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_content">
+                        <p class="text-muted font-13 m-b-30"></p>
+
+                        <div id="datatable-responsive_wrapper"
+                             class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                            <form method="post" action="/user/list" th:action="@{/customer/addLinkmanSave}">
+                                <!--<input type="hidden" name="lkmId" th:value="${cstLinkman.lkmId}"/>-->
+                                <input type="hidden" name="lkmCustNo" th:value="${session.custNo}"/>
+                                <input type="hidden" name="lkmCustName" th:value="${session.custName}"/>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <table id="datatable-responsive"
+                                               class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline collapsed"
+                                               cellspacing="0" width="100%" role="grid"
+                                               aria-describedby="datatable-responsive_info" style="width: 100%;">
+
+                                            <div class="col-sm-4" style="width: 813px; height: 36px; border: 1px solid blue; position: relative; top: 10px; ">
+                                                <div style="width: 200px; height: 34px; border: 1px solid #6EC2FD; background-color: #6EC2FD; ">
+                                                    <p style="text-align: center;line-height: 30px; color: black;">姓名</p>
+                                                </div>
+                                                <div style="width: 200px; height: 34px; border: 1px solid #EEEEFE ; background-color: #EEEEFE; position: absolute; left: 208px; top: -0.1px;">
+                                                    <p style="line-height: 25px; color: black" ><input id="lkmName" name="lkmName"  style="text-align: center;" required/> <span class="required">*</span></p>
+                                                </div>
+                                                <div style="width: 200px; height: 34px; border: 1px solid #6EC2FD; background-color: #6EC2FD; position: absolute; left: 409px;  top: -0.1px;">
+                                                    <p style="text-align: center;line-height: 30px; color: black;">性别</p>
+                                                </div>
+                                                <div style="width: 200px; height: 34px; border: 1px solid #EEEEFE; background-color: #EEEEFE; position: absolute; left: 610px;  top: -0.1px;">
+                                                    <p style=" line-height: 25px; color: black" ><input  type="radio" name="lkmSex" value="男" />男  <input type="radio" name="lkmSex" value="女" />女</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-4" style="width: 813px; height: 36px; border: 1px solid blue; position: relative; top: 10px; border-top: none;">
+                                                <div style="width: 200px; height: 34px; border: 1px solid #6EC2FD; background-color: #6EC2FD; ">
+                                                    <p style="text-align: center;line-height: 30px; color: black;">职位</p>
+                                                </div>
+                                                <div style="width: 200px; height: 34px; border: 1px solid #EEEEFE ; background-color: #EEEEFE; position: absolute; left: 208px; top: -0.1px;">
+                                                    <p style="line-height: 25px; color: black"  ><input id="lkmPostion" name="lkmPostion" style="text-align: center;"  required/> <span class="required">*</span></p>
+                                                </div>
+                                                <div style="width: 200px; height: 34px; border: 1px solid #6EC2FD; background-color: #6EC2FD; position: absolute; left: 409px;  top: -0.1px;">
+                                                    <p style="text-align: center;line-height: 30px; color: black;">办公电话</p>
+                                                </div>
+                                                <div style="width: 200px; height: 34px; border: 1px solid #EEEEFE; background-color: #EEEEFE; position: absolute; left: 610px;  top: -0.1px;">
+                                                    <p style="line-height: 25px; color: black"  ><input id="lkmTel" name="lkmTel" style="text-align: center;" required/> <span class="required">*</span></p>
+                                                </div>
+
+
+                                            </div>
+
+                                            <div class="col-sm-4" style="width: 813px; height: 36px; border: 1px solid blue; position: relative; top: 10px; border-top: none;">
+                                                <div style="width: 200px; height: 34px; border: 1px solid #6EC2FD; background-color: #6EC2FD; ">
+                                                    <p style="text-align: center;line-height: 30px; color: black;">手机</p>
+                                                </div>
+                                                <div style="width: 200px; height: 34px; border: 1px solid #EEEEFE ; background-color: #EEEEFE; position: absolute; left: 208px; top: -0.1px;">
+                                                    <p style="line-height: 25px; color: black"  ><input id="lkmMobile" name="lkmMobile" style="text-align: center;" /></p>
+                                                </div>
+                                                <div style="width: 200px; height: 34px; border: 1px solid #6EC2FD; background-color: #6EC2FD; position: absolute; left: 409px;  top: -0.1px;">
+                                                    <p style="text-align: center;line-height: 30px; color: black;">备注</p>
+                                                </div>
+                                                <div style="width: 200px; height: 34px; border: 1px solid #EEEEFE; background-color: #EEEEFE; position: absolute; left: 610px;  top: -0.1px;">
+                                                    <p style="line-height: 25px; color: black"  ><input id="lkmMemo" name="lkmMemo" style="text-align: center;" /> </p>
+                                                </div>
+                                            </div>
+                                            <button id="save" type="submit" style="display: none;"></button>
+                                        </table>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script  layout:fragment="js">
+    $("#back").on("click",function(){
+        window.history.back();
+    });
+    function doDel(obj,lkmId){
+        if(confirm("你确定需要删除该营销信息吗？")){
+            $.ajax({
+                type:"GET",
+                url:"/customer/delLinkman",
+                data:"lkmId="+lkmId,
+                dataType:"json",
+                success:function(data){
+                    if(data.flag == "true"){//删除成功：移除删除行
+                        alert("删除成功！");
+                        $(obj).parents("tr").remove();
+                    }
+                },
+                error:function(data){
+                    alert("对不起，删除失败！");
+                }
+            });
+        }
+    }
+    $("#send").click(function () {
+        $("#save").click();
+    });
+    /*var editstatus=$("#editStatus").val();
+    if (editstatus==1){
+        alert("保存成功");
+    }else {
+        alert(editstatus);
+        alert("保存失败");
+    }*/
+    $(document).ready(function(){
+
+    });
+</script>
+</html>
